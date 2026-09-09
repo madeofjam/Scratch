@@ -79,6 +79,56 @@ exclude_title_terms:
 # Results per query page. 50 is Adzuna's maximum.
 results_per_page: 50
 
+# Skills and domain expertise pulled from the CV (Key Skills & Expertise,
+# plus recurring themes from Career Experience). A job's title+description
+# is scored against this list; matched terms are shown on the dashboard as
+# tags and used for "Best CV match" sorting, so results are ranked by
+# substance, not just by which title-phrase query happened to surface them.
+cv_keywords:
+  - "Information Security"
+  - "Enterprise Risk"
+  - "Risk Governance"
+  - "Data Protection"
+  - "GDPR"
+  - "ISO27001"
+  - "Cyber Essentials"
+  - "Security Operations Centre"
+  - "SOC"
+  - "Vendor Management"
+  - "Third-Party Risk"
+  - "Budget Management"
+  - "Financial Governance"
+  - "Chargeback"
+  - "Showback"
+  - "OPEX"
+  - "CAPEX"
+  - "Organisational Design"
+  - "Talent Development"
+  - "Succession Planning"
+  - "Change Management"
+  - "Digital Transformation"
+  - "Cloud Transformation"
+  - "Hyper-Growth"
+  - "Business Continuity"
+  - "SAP S/4HANA"
+  - "ITSM"
+  - "ITIL"
+  - "Major Incident Management"
+  - "Data Strategy"
+  - "Board Reporting"
+  - "Non-Executive Director"
+  - "NED"
+  - "Trustee"
+  - "Federated"
+
+# Minimum number of cv_keywords that must appear in a job's title+description
+# for it to make the dashboard. 0 disables this filter (keywords are still
+# scored and shown, just not required). Kept low by default since senior
+# exec postings are naturally low-volume and short listings may only
+# mention a couple of these terms explicitly — raise it if too many
+# marginal matches show up.
+min_keyword_matches: 1
+
 # A job must be based in one of commutable_areas (case-insensitive
 # substring match against its location) OR mention one of remote_terms
 # (in its location, title or description) to make the dashboard — this is
