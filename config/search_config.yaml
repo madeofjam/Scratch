@@ -36,7 +36,7 @@ where: ""
 # Minimum annual salary in GBP. Jobs Adzuna reports below this are dropped.
 # Set to 0 to disable. Adzuna doesn't have salary data for every listing, so
 # this only filters postings that state a figure.
-salary_min: 150000
+salary_min: 135000
 
 # Only consider postings from the last N days, so the dashboard stays fresh
 # and doesn't re-show stale listings every day.
