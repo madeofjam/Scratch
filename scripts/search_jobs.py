@@ -12,6 +12,7 @@ https://developer.adzuna.com/).
 
 import json
 import os
+import re
 import sys
 from datetime import datetime, timezone
 from pathlib import Path
@@ -73,18 +74,67 @@ def fetch_query(query: dict, config: dict) -> list:
     return resp.json().get("results", [])
 
 
+def contains_term(haystack: str, term: str) -> bool:
+    """Whole-word/phrase match, so short terms like "cto" or "intern" don't
+    false-positive inside unrelated words ("dire-cto-r", "intern-ational")."""
+    return re.search(r"\b" + re.escape(term.lower()) + r"\b", haystack) is not None
+
+
+NEGATION_RE = re.compile(r"\b(no|not|non|isn'?t|without)\b(?:[\s-]+\w+){0,3}[\s-]*$")
+
+
+def contains_unnegated_term(haystack: str, term: str) -> bool:
+    """Like contains_term, but a match is ignored if it's preceded within a
+    few words by a negation ("no remote work", "not a hybrid role") — so
+    free-text descriptions don't produce false positives the way a plain
+    substring or word-boundary search would."""
+    pattern = re.compile(r"\b" + re.escape(term.lower()) + r"\b")
+    for m in pattern.finditer(haystack):
+        prefix = haystack[max(0, m.start() - 40) : m.start()]
+        if NEGATION_RE.search(prefix):
+            continue
+        return True
+    return False
+
+
 def passes_filters(job: dict, config: dict) -> bool:
     title = (job.get("title") or "").lower()
 
     for term in config.get("exclude_title_terms", []):
-        if term.lower() in title:
+        if contains_term(title, term):
             return False
 
     must_contain = config.get("title_must_contain")
-    if must_contain and not any(term.lower() in title for term in must_contain):
+    if must_contain and not any(contains_term(title, term) for term in must_contain):
         return False
 
     return True
+
+
+def passes_location_filter(job: dict, config: dict) -> bool:
+    """A job must be based near Farnham or explicitly remote-friendly.
+
+    The location field and title are checked with a plain word-boundary
+    match (structured/intentional text, negation is not a concern there);
+    the free-text description is checked with the negation-aware variant, so
+    "no remote work" in a description doesn't count as a match.
+    """
+    loc_config = config.get("location") or {}
+    commutable = loc_config.get("commutable_areas") or []
+    remote_terms = loc_config.get("remote_terms") or []
+    if not commutable and not remote_terms:
+        return True
+
+    location = (job.get("location") or "").lower()
+    if any(contains_term(location, area) for area in commutable):
+        return True
+
+    signal = f"{location} {(job.get('title') or '').lower()}"
+    if any(contains_term(signal, term) for term in remote_terms):
+        return True
+
+    description = (job.get("description") or "").lower()
+    return any(contains_unnegated_term(description, term) for term in remote_terms)
 
 
 def normalise(job: dict) -> dict:
@@ -127,6 +177,8 @@ def main() -> None:
                 continue
             job = normalise(raw_job)
             if not job["id"]:
+                continue
+            if not passes_location_filter(job, config):
                 continue
             merged[job["id"]] = job
 

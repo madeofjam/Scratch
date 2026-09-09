@@ -1,7 +1,8 @@
 # Job Hunt Dashboard
 
 Daily-refreshed dashboard of senior UK technology leadership roles (CIO /
-Group CIO / CTO), matched against the search criteria in
+Director / Head of / VP), commutable from Farnham or remote, matched against
+the search criteria in
 [`config/search_config.yaml`](config/search_config.yaml). A scheduled GitHub
 Actions workflow queries the [Adzuna](https://www.adzuna.co.uk/) job search
 API — which aggregates listings from Indeed, Reed, Totaljobs, CV-Library and
@@ -56,6 +57,21 @@ Everything about *what* counts as a match lives in
 - `salary_min` — drops listings below this (where Adzuna has salary data).
 - `title_must_contain` / `exclude_title_terms` — extra title-based filtering
   on top of the Adzuna query, so results stay precise.
+- `location.commutable_areas` / `location.remote_terms` — a job is kept only
+  if its location matches one of `commutable_areas` (currently Farnham and
+  the surrounding commutable area, Surrey/Hampshire, and London/South East)
+  or it looks remote-friendly per `remote_terms`. Edit these lists to widen
+  or narrow the geography.
 
 Changes take effect on the next scheduled or manually-triggered run — no
 need to touch the workflow or script.
+
+## Known limitation: remote/hybrid detection
+
+Whether a job is "remote" is read from its Adzuna location field, its title,
+and (with a simple negation check) its description — so "no remote work" in
+a description is correctly ignored, but a longer-distance negation like "not
+able to offer remote working" can still slip through, since that needs real
+language understanding rather than a keyword search. Treat the dashboard as
+a first-pass filter and check the listing itself before ruling a role in or
+out on location grounds.

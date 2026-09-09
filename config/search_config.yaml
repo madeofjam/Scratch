@@ -14,9 +14,23 @@ searches:
   - what_phrase: "Group CIO"
   - what_phrase: "Chief Technology Officer"
   - what_phrase: "CIO"
+  - what_phrase: "Head of Technology"
+  - what_phrase: "Head of IT"
+  - what_phrase: "Head of Information Technology"
+  - what_phrase: "IT Director"
+  - what_phrase: "Technology Director"
+  - what_phrase: "Director of Technology"
+  - what_phrase: "Director of IT"
+  - what_phrase: "VP Technology"
+  - what_phrase: "VP Engineering"
+  - what_phrase: "VP IT"
+  - what_phrase: "Vice President Technology"
+  - what_phrase: "Vice President Engineering"
 
-# Leave blank to search the whole UK. Set to a town/city/region to narrow
-# results, e.g. "London" or "South East England".
+# Left blank deliberately: the location filter below narrows to
+# commutable-from-Farnham-or-remote roles across ALL these UK-wide
+# searches, without needing a separate location query per title (which
+# would multiply the number of daily API calls).
 where: ""
 
 # Minimum annual salary in GBP. Jobs Adzuna reports below this are dropped.
@@ -37,8 +51,20 @@ title_must_contain:
   - "cio"
   - "chief technology officer"
   - "cto"
-  - "technology director"
   - "group cio"
+  - "head of technology"
+  - "head of it"
+  - "head of information technology"
+  - "it director"
+  - "technology director"
+  - "director of technology"
+  - "director of it"
+  - "vp technology"
+  - "vp engineering"
+  - "vp it"
+  - "vice president technology"
+  - "vice president engineering"
+  - "vice president it"
 
 # Case-insensitive terms — if any appear in the job title, the job is
 # dropped, regardless of title_must_contain above.
@@ -52,3 +78,46 @@ exclude_title_terms:
 
 # Results per query page. 50 is Adzuna's maximum.
 results_per_page: 50
+
+# A job must be based in one of commutable_areas (case-insensitive
+# substring match against its location) OR mention one of remote_terms
+# (in its location, title or description) to make the dashboard — this is
+# what implements "commutable from Farnham, or remote". Edit these lists
+# to widen/narrow the geography.
+location:
+  commutable_areas:
+    - Farnham
+    - Guildford
+    - Aldershot
+    - Farnborough
+    - Fleet
+    - Camberley
+    - Woking
+    - Bagshot
+    - Frimley
+    - Haslemere
+    - Godalming
+    - Alton
+    - Basingstoke
+    - Winchester
+    - Reading
+    - Bracknell
+    - Staines
+    - Weybridge
+    - Epsom
+    - Kingston
+    - Richmond
+    - Wimbledon
+    - Sutton
+    - Surrey
+    - Hampshire
+    - London
+    - "Greater London"
+    - "South East"
+  remote_terms:
+    - remote
+    - "work from home"
+    - wfh
+    - hybrid
+    - "uk wide"
+    - nationwide
