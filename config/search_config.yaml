@@ -43,10 +43,12 @@ salary_min: 135000
 # the day they're first seen (the "New" badge still reflects first_seen).
 max_days_old: 30
 
-# Extra safety net beyond the Adzuna query: a job's TITLE must contain at
-# least one of these (case-insensitive) to make it onto the dashboard. This
-# stops roles that merely *mention* "CIO" in the body text from cluttering
-# results. Leave empty to disable.
+# At least one of these (case-insensitive) must appear in the job's
+# title+description to make it onto the dashboard — checked against the
+# same full text Adzuna already matched the search query against, so this
+# doesn't re-exclude real candidates whose title just doesn't happen to
+# restate the phrase (e.g. "Head of Engineering" whose description says
+# "reports to the CIO"). Leave empty to disable.
 title_must_contain:
   - "chief information officer"
   - "cio"
@@ -123,12 +125,13 @@ cv_keywords:
   - "Federated"
 
 # Minimum number of cv_keywords that must appear in a job's title+description
-# for it to make the dashboard. 0 disables this filter (keywords are still
-# scored and shown, just not required). Kept low by default since senior
-# exec postings are naturally low-volume and short listings may only
-# mention a couple of these terms explicitly — raise it if too many
-# marginal matches show up.
-min_keyword_matches: 1
+# for it to make the dashboard. 0 disables this as a hard filter — keywords
+# are still scored and shown as tags, and drive "Best CV match" sorting, but
+# don't gate inclusion. Started at 1 and cut real candidates: Adzuna
+# descriptions are often short/truncated, so a genuinely relevant senior
+# role can easily not happen to state a specific term like "ISO27001"
+# verbatim. Raise it above 0 only if too many low-relevance jobs show up.
+min_keyword_matches: 0
 
 # A job must be based in one of commutable_areas (case-insensitive
 # substring match against its location) OR mention one of remote_terms
