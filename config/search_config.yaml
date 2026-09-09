@@ -1,0 +1,125 @@
+# Job search configuration for the daily dashboard.
+# Edit this file any time to change what gets searched for — no code changes
+# needed. It's read fresh by scripts/search_jobs.py on every run.
+
+# Adzuna country code. gb = United Kingdom.
+country: gb
+
+# Each entry is a separate Adzuna search query; results from every query are
+# merged and de-duplicated by job ID before the dashboard sees them.
+# "what_phrase" requires the exact phrase to appear (title or description);
+# it's tighter than a plain keyword search.
+searches:
+  - what_phrase: "Chief Information Officer"
+  - what_phrase: "Group CIO"
+  - what_phrase: "Chief Technology Officer"
+  - what_phrase: "CIO"
+  - what_phrase: "Head of Technology"
+  - what_phrase: "Head of IT"
+  - what_phrase: "Head of Information Technology"
+  - what_phrase: "IT Director"
+  - what_phrase: "Technology Director"
+  - what_phrase: "Director of Technology"
+  - what_phrase: "Director of IT"
+  - what_phrase: "VP Technology"
+  - what_phrase: "VP Engineering"
+  - what_phrase: "VP IT"
+  - what_phrase: "Vice President Technology"
+  - what_phrase: "Vice President Engineering"
+
+# Left blank deliberately: the location filter below narrows to
+# commutable-from-Farnham-or-remote roles across ALL these UK-wide
+# searches, without needing a separate location query per title (which
+# would multiply the number of daily API calls).
+where: ""
+
+# Minimum annual salary in GBP. Jobs Adzuna reports below this are dropped.
+# Set to 0 to disable. Adzuna doesn't have salary data for every listing, so
+# this only filters postings that state a figure.
+salary_min: 150000
+
+# Only consider postings from the last N days, so the dashboard stays fresh
+# and doesn't re-show stale listings every day.
+max_days_old: 2
+
+# Extra safety net beyond the Adzuna query: a job's TITLE must contain at
+# least one of these (case-insensitive) to make it onto the dashboard. This
+# stops roles that merely *mention* "CIO" in the body text from cluttering
+# results. Leave empty to disable.
+title_must_contain:
+  - "chief information officer"
+  - "cio"
+  - "chief technology officer"
+  - "cto"
+  - "group cio"
+  - "head of technology"
+  - "head of it"
+  - "head of information technology"
+  - "it director"
+  - "technology director"
+  - "director of technology"
+  - "director of it"
+  - "vp technology"
+  - "vp engineering"
+  - "vp it"
+  - "vice president technology"
+  - "vice president engineering"
+  - "vice president it"
+
+# Case-insensitive terms — if any appear in the job title, the job is
+# dropped, regardless of title_must_contain above.
+exclude_title_terms:
+  - junior
+  - intern
+  - internship
+  - assistant
+  - deputy
+  - trainee
+
+# Results per query page. 50 is Adzuna's maximum.
+results_per_page: 50
+
+# A job must be based in one of commutable_areas (case-insensitive
+# substring match against its location) OR mention one of remote_terms
+# (in its location, title or description) to make the dashboard — this is
+# what implements "commutable from Farnham, or remote". Edit these lists
+# to widen/narrow the geography.
+location:
+  commutable_areas:
+    - Farnham
+    - Guildford
+    - Aldershot
+    - Farnborough
+    - Fleet
+    - Camberley
+    - Woking
+    - Bagshot
+    - Frimley
+    - Haslemere
+    - Godalming
+    - Alton
+    - Basingstoke
+    - Winchester
+    - Reading
+    - Didcot
+    - Oxford
+    - Bracknell
+    - Staines
+    - Weybridge
+    - Epsom
+    - Kingston
+    - Richmond
+    - Wimbledon
+    - Sutton
+    - Surrey
+    - Hampshire
+    - London
+    - "Greater London"
+    - "South East"
+  remote_terms:
+    - remote
+    - "work from home"
+    - wfh
+    - hybrid
+    - "uk wide"
+    - nationwide
