@@ -38,9 +38,10 @@ where: ""
 # this only filters postings that state a figure.
 salary_min: 135000
 
-# Only consider postings from the last N days, so the dashboard stays fresh
-# and doesn't re-show stale listings every day.
-max_days_old: 2
+# Only consider postings from the last N days. 30 covers a full month —
+# jobs stay on the dashboard until they age out of this window, not just on
+# the day they're first seen (the "New" badge still reflects first_seen).
+max_days_old: 30
 
 # Extra safety net beyond the Adzuna query: a job's TITLE must contain at
 # least one of these (case-insensitive) to make it onto the dashboard. This
