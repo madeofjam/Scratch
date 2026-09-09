@@ -1,33 +1,41 @@
 {
-  "last_updated": "2026-09-09T22:29:12.927488+00:00",
+  "last_updated": "2026-09-09T22:46:04.178699+00:00",
   "total": 2,
   "new_today": 2,
   "jobs": [
     {
-      "id": "5877054195",
-      "title": "Partner Principal Architect, GSI CTO, Google Cloud",
-      "company": "Google",
-      "location": "Victoria, South West London",
-      "salary_min": 160000,
-      "salary_max": 200000,
-      "created": "2026-09-09T12:46:21Z",
-      "url": "https://www.adzuna.co.uk/jobs/details/5877054195?utm_medium=api&utm_source=5cebfbfa",
-      "description": "Salary: \u00a3160,000 - 200,000 per year Requirements: Bachelors degree in Computer Science, a related technical field, or equivalent practical experience. 10 years of experience as an enterprise architect or equivalent experience in a customer-facing role. Experience in cloud market insights and cloud computing across applications, infrastructure, storage, platforms, or data. Experience engaging with,",
+      "id": "5877461819",
+      "title": "VP Engineering - AI",
+      "company": "Clearwater People Solutions",
+      "location": "Farringdon, Central London",
+      "salary_min": 130000,
+      "salary_max": 140000,
+      "created": "2026-09-09T20:37:11Z",
+      "url": "https://www.adzuna.co.uk/jobs/details/5877461819?utm_medium=api&utm_source=5cebfbfa",
+      "description": "Our client is currently recruiting for a VP Engineering to lead on the adoption of AI in Engineering. The VP Engineering is a senior leadership role created to step change in how our client engineers its software. The VP Engineering will set the software engineering and architecture direction for Digital Transformation, establishes the standards, tooling and modern practices the function builds to",
       "category": "IT Jobs",
+      "matched_keywords": [
+        "Digital Transformation"
+      ],
+      "match_score": 1,
       "first_seen": "2026-09-09",
       "is_new": true
     },
     {
-      "id": "5874489034",
-      "title": "Chief Technology Officer",
-      "company": "Welocity",
+      "id": "5877440144",
+      "title": "VP Engineering - AI",
+      "company": "Clearwater People Solutions Ltd",
       "location": "London, UK",
-      "salary_min": 180000,
-      "salary_max": 200000,
-      "created": "2026-09-07T21:39:13Z",
-      "url": "https://www.adzuna.co.uk/jobs/details/5874489034?utm_medium=api&utm_source=5cebfbfa",
-      "description": "About the Opportunity Welocity is supporting an established UK professional services business in the appointment of a hands on Chief Technology Officer to lead the next phase of its technology transformation. The organisation operates in a knowledge- and document-intensive professional services environment, where technology has significant potential to improve how teams work, serve clients and acc",
+      "salary_min": 130000,
+      "salary_max": 140000,
+      "created": "2026-09-09T19:29:56Z",
+      "url": "https://www.adzuna.co.uk/jobs/details/5877440144?utm_medium=api&utm_source=5cebfbfa",
+      "description": "Our client is currently recruiting for a VP Engineering to lead on the adoption of AI in Engineering. The VP Engineering is a senior leadership role created to step change in how our client engineers its software. The VP Engineering will set the software engineering and architecture direction for Digital Transformation, establishes the standards, tooling and modern practices the function builds to",
       "category": "IT Jobs",
+      "matched_keywords": [
+        "Digital Transformation"
+      ],
+      "match_score": 1,
       "first_seen": "2026-09-09",
       "is_new": true
     }
