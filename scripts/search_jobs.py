@@ -178,6 +178,7 @@ def main() -> None:
     today = datetime.now(timezone.utc).date().isoformat()
 
     merged: dict[str, dict] = {}
+    funnel = {"raw": 0, "dropped_title": 0, "dropped_keywords": 0, "dropped_location": 0}
     for query in config.get("searches", []):
         try:
             results = fetch_query(query, config)
@@ -185,24 +186,39 @@ def main() -> None:
             print(f"WARN: query {query!r} failed: {e}", file=sys.stderr)
             continue
 
+        label = query.get("what_phrase") or query.get("what")
+        print(f"[query] {label!r}: {len(results)} raw results")
+        funnel["raw"] += len(results)
+
         for raw_job in results:
             if not passes_filters(raw_job, config):
+                funnel["dropped_title"] += 1
                 continue
 
             matched_keywords, match_score = score_cv_keywords(raw_job, config)
             min_matches = config.get("min_keyword_matches", 0)
             if min_matches and match_score < min_matches:
+                funnel["dropped_keywords"] += 1
                 continue
 
             job = normalise(raw_job)
             if not job["id"]:
                 continue
             if not passes_location_filter(job, config):
+                funnel["dropped_location"] += 1
                 continue
 
             job["matched_keywords"] = matched_keywords
             job["match_score"] = match_score
             merged[job["id"]] = job
+
+    print(
+        f"[funnel] {funnel['raw']} raw (pre-dedup, sums across queries) "
+        f"-> -{funnel['dropped_title']} title filter "
+        f"-> -{funnel['dropped_keywords']} keyword filter "
+        f"-> -{funnel['dropped_location']} location filter "
+        f"-> {len(merged)} unique jobs kept"
+    )
 
     jobs = []
     for job_id, job in merged.items():
