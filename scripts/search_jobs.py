@@ -100,12 +100,21 @@ def contains_unnegated_term(haystack: str, term: str) -> bool:
 def passes_filters(job: dict, config: dict) -> bool:
     title = (job.get("title") or "").lower()
 
+    # Exclusions stay title-only and deliberately narrow (junior/deputy/etc):
+    # scanning the description too would drop senior roles that merely
+    # mention junior team members they'd be managing.
     for term in config.get("exclude_title_terms", []):
         if contains_term(title, term):
             return False
 
+    # title_must_contain checks title+description, not title alone: Adzuna's
+    # own what_phrase query already matched the phrase somewhere in the full
+    # text, so requiring it again in the title specifically just throws away
+    # real candidates whose title doesn't happen to restate it (e.g. "Head
+    # of Engineering" whose description says "reports to the CIO").
+    text = f"{title} {(job.get('description') or '').lower()}"
     must_contain = config.get("title_must_contain")
-    if must_contain and not any(contains_term(title, term) for term in must_contain):
+    if must_contain and not any(contains_term(text, term) for term in must_contain):
         return False
 
     return True
