@@ -9,6 +9,15 @@ API — which aggregates listings from Indeed, Reed, Totaljobs, CV-Library and
 others — every morning, filters and de-duplicates the results, and publishes
 them to a static dashboard via GitHub Pages.
 
+Matching happens in two stages: the title/location filters (below) source a
+sane candidate pool from Adzuna — searching on bare skill words like "GDPR"
+or "cloud" alone would return thousands of unrelated junior/compliance
+postings, not senior tech leadership roles — and then every candidate job is
+additionally scored against skills and experience pulled from the CV
+(`cv_keywords`), so a job only reaches the dashboard if it also resonates
+with the actual background, not just its title. Matched skills are shown as
+tags on each card, and jobs can be sorted by match strength.
+
 ## How it fits together
 
 - `config/search_config.yaml` — what to search for: titles, UK location,
@@ -62,6 +71,13 @@ Everything about *what* counts as a match lives in
   the surrounding commutable area, Surrey/Hampshire, and London/South East)
   or it looks remote-friendly per `remote_terms`. Edit these lists to widen
   or narrow the geography.
+- `cv_keywords` — skills/experience terms pulled from the CV (ISO27001,
+  GDPR, vendor management, chargeback models, hyper-growth scaling, etc.).
+  A job's title+description is scored against this list; matched terms show
+  as tags on the dashboard, and `min_keyword_matches` sets how many are
+  required for a job to be kept (0 disables the requirement — keywords are
+  still scored and shown, just not enforced). Update this list whenever the
+  CV changes, so the dashboard keeps matching on current skills.
 
 Changes take effect on the next scheduled or manually-triggered run — no
 need to touch the workflow or script.

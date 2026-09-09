@@ -111,10 +111,28 @@
     white-space: nowrap;
   }
   .badge-new::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--good); }
+  .badge-match {
+    font-size: 0.72rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border: 1px solid var(--gridline);
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
 
   .card .meta { color: var(--text-secondary); font-size: 0.88rem; margin-top: 4px; }
   .card .meta span + span::before { content: " · "; color: var(--text-muted); }
   .card .desc { color: var(--text-secondary); font-size: 0.88rem; margin-top: 10px; line-height: 1.5; }
+  .card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
+  .card .tag {
+    font-size: 0.72rem;
+    color: var(--text-secondary);
+    background: var(--page-plane);
+    border: 1px solid var(--gridline);
+    border-radius: 999px;
+    padding: 2px 8px;
+  }
   .card .apply { display: inline-block; margin-top: 12px; font-size: 0.88rem; font-weight: 600; color: var(--accent); text-decoration: none; }
   .card .apply:hover { text-decoration: underline; }
 
@@ -145,6 +163,7 @@
     <input type="text" id="search" placeholder="Filter by title, company or location…">
     <select id="sort">
       <option value="newest">Newest first</option>
+      <option value="match">Best CV match</option>
       <option value="salary">Highest salary first</option>
     </select>
     <label class="toggle"><input type="checkbox" id="new-only"> New today only</label>
@@ -189,10 +208,14 @@
     for (const job of state.filtered) {
       const card = document.createElement("div");
       card.className = "card";
+      const matchCount = job.matched_keywords ? job.matched_keywords.length : 0;
       card.innerHTML = `
         <div class="card-top">
           <h3><a href="${job.url}" target="_blank" rel="noopener">${escapeHtml(job.title)}</a></h3>
-          ${job.is_new ? '<span class="badge-new">New</span>' : ""}
+          <span style="display:flex; gap:6px; flex-wrap:wrap;">
+            ${matchCount > 0 ? `<span class="badge-match">${matchCount} CV match${matchCount === 1 ? "" : "es"}</span>` : ""}
+            ${job.is_new ? '<span class="badge-new">New</span>' : ""}
+          </span>
         </div>
         <div class="meta">
           <span>${escapeHtml(job.company)}</span>
@@ -201,6 +224,7 @@
           <span>Posted ${formatDate(job.created)}</span>
         </div>
         ${job.description ? `<div class="desc">${escapeHtml(job.description)}…</div>` : ""}
+        ${matchCount > 0 ? `<div class="tags">${job.matched_keywords.map(k => `<span class="tag">${escapeHtml(k)}</span>`).join("")}</div>` : ""}
         <a class="apply" href="${job.url}" target="_blank" rel="noopener">View &amp; apply →</a>
       `;
       cardsEl.appendChild(card);
@@ -226,6 +250,8 @@
 
     if (sort === "salary") {
       jobs = jobs.slice().sort((a, b) => (b.salary_max || b.salary_min || 0) - (a.salary_max || a.salary_min || 0));
+    } else if (sort === "match") {
+      jobs = jobs.slice().sort((a, b) => (b.match_score || 0) - (a.match_score || 0));
     } else {
       jobs = jobs.slice().sort((a, b) => {
         if (a.is_new !== b.is_new) return a.is_new ? -1 : 1;

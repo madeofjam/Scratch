@@ -137,6 +137,19 @@ def passes_location_filter(job: dict, config: dict) -> bool:
     return any(contains_unnegated_term(description, term) for term in remote_terms)
 
 
+def score_cv_keywords(job: dict, config: dict) -> tuple[list[str], int]:
+    """Match this job's title+description against the CV skills/experience
+    keywords in config. Run against the raw (untruncated) description for
+    best recall — normalise() truncates it for display only."""
+    keywords = config.get("cv_keywords") or []
+    if not keywords:
+        return [], 0
+
+    text = f"{job.get('title') or ''} {job.get('description') or ''}".lower()
+    matched = [kw for kw in keywords if contains_term(text, kw)]
+    return matched, len(matched)
+
+
 def normalise(job: dict) -> dict:
     return {
         "id": job.get("id"),
@@ -175,11 +188,20 @@ def main() -> None:
         for raw_job in results:
             if not passes_filters(raw_job, config):
                 continue
+
+            matched_keywords, match_score = score_cv_keywords(raw_job, config)
+            min_matches = config.get("min_keyword_matches", 0)
+            if min_matches and match_score < min_matches:
+                continue
+
             job = normalise(raw_job)
             if not job["id"]:
                 continue
             if not passes_location_filter(job, config):
                 continue
+
+            job["matched_keywords"] = matched_keywords
+            job["match_score"] = match_score
             merged[job["id"]] = job
 
     jobs = []
@@ -190,9 +212,10 @@ def main() -> None:
         job["is_new"] = first_seen == today
         jobs.append(job)
 
-    # Newest posting first within each group, new-today jobs surfaced above
-    # everything else.
+    # Newest posting first within each group, best CV match above weaker
+    # matches, new-today jobs surfaced above everything else.
     jobs.sort(key=lambda j: j.get("created") or "", reverse=True)
+    jobs.sort(key=lambda j: j.get("match_score", 0), reverse=True)
     jobs.sort(key=lambda j: j["is_new"], reverse=True)
 
     output = {
