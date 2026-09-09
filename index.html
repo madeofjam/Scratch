@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Job Hunt Dashboard</title>
+<style>
+  :root {
+    color-scheme: light;
+    --surface-1:      #fcfcfb;
+    --page-plane:     #f9f9f7;
+    --text-primary:   #0b0b0b;
+    --text-secondary: #52514e;
+    --text-muted:     #898781;
+    --gridline:       #e1e0d9;
+    --border:         rgba(11,11,11,0.10);
+    --accent:         #2a78d6;
+    --good:           #0ca30c;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --surface-1:      #1a1a19;
+      --page-plane:     #0d0d0d;
+      --text-primary:   #ffffff;
+      --text-secondary: #c3c2b7;
+      --text-muted:     #898781;
+      --gridline:       #2c2c2a;
+      --border:         rgba(255,255,255,0.10);
+      --accent:         #3987e5;
+      --good:           #0ca30c;
+    }
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 64px;
+    background: var(--page-plane);
+    color: var(--text-primary);
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+
+  header h1 { font-size: 1.5rem; margin: 0 0 4px; }
+  header p { margin: 0 0 24px; color: var(--text-secondary); font-size: 0.95rem; }
+
+  .stats { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+  .stat-tile {
+    flex: 1 1 160px;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+  }
+  .stat-tile .value { font-size: 1.6rem; font-weight: 600; line-height: 1.2; }
+  .stat-tile .label { font-size: 0.8rem; color: var(--text-secondary); margin-top: 2px; }
+
+  .filters {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 20px;
+    padding: 12px;
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+  }
+  .filters input[type="text"], .filters select {
+    font: inherit;
+    font-size: 0.9rem;
+    padding: 7px 10px;
+    border-radius: 6px;
+    border: 1px solid var(--gridline);
+    background: var(--page-plane);
+    color: var(--text-primary);
+  }
+  .filters input[type="text"] { flex: 1 1 220px; }
+  .filters label.toggle {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+  }
+
+  .cards { display: flex; flex-direction: column; gap: 10px; }
+  .card {
+    background: var(--surface-1);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .card-top { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+  .card h3 { margin: 0; font-size: 1.05rem; }
+  .card h3 a { color: var(--text-primary); text-decoration: none; }
+  .card h3 a:hover { color: var(--accent); text-decoration: underline; }
+  .badge-new {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    color: var(--good);
+    border: 1px solid var(--good);
+    border-radius: 999px;
+    padding: 2px 8px;
+    white-space: nowrap;
+  }
+  .badge-new::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--good); }
+
+  .card .meta { color: var(--text-secondary); font-size: 0.88rem; margin-top: 4px; }
+  .card .meta span + span::before { content: " · "; color: var(--text-muted); }
+  .card .desc { color: var(--text-secondary); font-size: 0.88rem; margin-top: 10px; line-height: 1.5; }
+  .card .apply { display: inline-block; margin-top: 12px; font-size: 0.88rem; font-weight: 600; color: var(--accent); text-decoration: none; }
+  .card .apply:hover { text-decoration: underline; }
+
+  .empty {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 48px 16px;
+    border: 1px dashed var(--gridline);
+    border-radius: 10px;
+    font-size: 0.95rem;
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Job Hunt Dashboard</h1>
+    <p>Senior technology leadership roles (CIO / Group CIO / CTO) across the UK, refreshed daily via the Adzuna API.</p>
+  </header>
+
+  <div class="stats">
+    <div class="stat-tile"><div class="value" id="stat-total">–</div><div class="label">Open matches</div></div>
+    <div class="stat-tile"><div class="value" id="stat-new">–</div><div class="label">New today</div></div>
+    <div class="stat-tile"><div class="value" id="stat-updated" style="font-size:1.05rem;">–</div><div class="label">Last updated</div></div>
+  </div>
+
+  <div class="filters">
+    <input type="text" id="search" placeholder="Filter by title, company or location…">
+    <select id="sort">
+      <option value="newest">Newest first</option>
+      <option value="salary">Highest salary first</option>
+    </select>
+    <label class="toggle"><input type="checkbox" id="new-only"> New today only</label>
+  </div>
+
+  <div class="cards" id="cards"></div>
+  <div class="empty" id="empty" hidden></div>
+</div>
+
+<script>
+  const state = { jobs: [], filtered: [] };
+
+  function formatSalary(min, max) {
+    const fmt = n => "£" + Number(n).toLocaleString("en-GB", { maximumFractionDigits: 0 });
+    if (min && max && min !== max) return `${fmt(min)} – ${fmt(max)}`;
+    if (min) return `${fmt(min)}+`;
+    if (max) return `Up to ${fmt(max)}`;
+    return "Salary not specified";
+  }
+
+  function formatDate(iso) {
+    if (!iso) return "";
+    try {
+      return new Date(iso).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" });
+    } catch { return ""; }
+  }
+
+  function render() {
+    const cardsEl = document.getElementById("cards");
+    const emptyEl = document.getElementById("empty");
+    cardsEl.innerHTML = "";
+
+    if (state.filtered.length === 0) {
+      emptyEl.hidden = false;
+      emptyEl.textContent = state.jobs.length === 0
+        ? "No matches yet. The first daily run populates this dashboard automatically — see the README to trigger one now."
+        : "No jobs match the current filters.";
+      return;
+    }
+    emptyEl.hidden = true;
+
+    for (const job of state.filtered) {
+      const card = document.createElement("div");
+      card.className = "card";
+      card.innerHTML = `
+        <div class="card-top">
+          <h3><a href="${job.url}" target="_blank" rel="noopener">${escapeHtml(job.title)}</a></h3>
+          ${job.is_new ? '<span class="badge-new">New</span>' : ""}
+        </div>
+        <div class="meta">
+          <span>${escapeHtml(job.company)}</span>
+          <span>${escapeHtml(job.location)}</span>
+          <span>${formatSalary(job.salary_min, job.salary_max)}</span>
+          <span>Posted ${formatDate(job.created)}</span>
+        </div>
+        ${job.description ? `<div class="desc">${escapeHtml(job.description)}…</div>` : ""}
+        <a class="apply" href="${job.url}" target="_blank" rel="noopener">View &amp; apply →</a>
+      `;
+      cardsEl.appendChild(card);
+    }
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement("div");
+    div.textContent = str || "";
+    return div.innerHTML;
+  }
+
+  function applyFilters() {
+    const q = document.getElementById("search").value.trim().toLowerCase();
+    const newOnly = document.getElementById("new-only").checked;
+    const sort = document.getElementById("sort").value;
+
+    let jobs = state.jobs.filter(j => {
+      if (newOnly && !j.is_new) return false;
+      if (!q) return true;
+      return [j.title, j.company, j.location].some(v => (v || "").toLowerCase().includes(q));
+    });
+
+    if (sort === "salary") {
+      jobs = jobs.slice().sort((a, b) => (b.salary_max || b.salary_min || 0) - (a.salary_max || a.salary_min || 0));
+    } else {
+      jobs = jobs.slice().sort((a, b) => {
+        if (a.is_new !== b.is_new) return a.is_new ? -1 : 1;
+        return (b.created || "").localeCompare(a.created || "");
+      });
+    }
+
+    state.filtered = jobs;
+    render();
+  }
+
+  async function load() {
+    try {
+      const res = await fetch("data/jobs.json", { cache: "no-store" });
+      const data = await res.json();
+      state.jobs = data.jobs || [];
+
+      document.getElementById("stat-total").textContent = data.total ?? state.jobs.length;
+      document.getElementById("stat-new").textContent = data.new_today ?? 0;
+      document.getElementById("stat-updated").textContent = data.last_updated
+        ? new Date(data.last_updated).toLocaleString("en-GB", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" })
+        : "Not yet run";
+    } catch (e) {
+      document.getElementById("stat-updated").textContent = "Error loading data";
+    }
+    applyFilters();
+  }
+
+  document.getElementById("search").addEventListener("input", applyFilters);
+  document.getElementById("sort").addEventListener("change", applyFilters);
+  document.getElementById("new-only").addEventListener("change", applyFilters);
+
+  load();
+</script>
+</body>
+</html>

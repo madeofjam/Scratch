@@ -1,0 +1,54 @@
+# Job search configuration for the daily dashboard.
+# Edit this file any time to change what gets searched for — no code changes
+# needed. It's read fresh by scripts/search_jobs.py on every run.
+
+# Adzuna country code. gb = United Kingdom.
+country: gb
+
+# Each entry is a separate Adzuna search query; results from every query are
+# merged and de-duplicated by job ID before the dashboard sees them.
+# "what_phrase" requires the exact phrase to appear (title or description);
+# it's tighter than a plain keyword search.
+searches:
+  - what_phrase: "Chief Information Officer"
+  - what_phrase: "Group CIO"
+  - what_phrase: "Chief Technology Officer"
+  - what_phrase: "CIO"
+
+# Leave blank to search the whole UK. Set to a town/city/region to narrow
+# results, e.g. "London" or "South East England".
+where: ""
+
+# Minimum annual salary in GBP. Jobs Adzuna reports below this are dropped.
+# Set to 0 to disable. Adzuna doesn't have salary data for every listing, so
+# this only filters postings that state a figure.
+salary_min: 150000
+
+# Only consider postings from the last N days, so the dashboard stays fresh
+# and doesn't re-show stale listings every day.
+max_days_old: 2
+
+# Extra safety net beyond the Adzuna query: a job's TITLE must contain at
+# least one of these (case-insensitive) to make it onto the dashboard. This
+# stops roles that merely *mention* "CIO" in the body text from cluttering
+# results. Leave empty to disable.
+title_must_contain:
+  - "chief information officer"
+  - "cio"
+  - "chief technology officer"
+  - "cto"
+  - "technology director"
+  - "group cio"
+
+# Case-insensitive terms — if any appear in the job title, the job is
+# dropped, regardless of title_must_contain above.
+exclude_title_terms:
+  - junior
+  - intern
+  - internship
+  - assistant
+  - deputy
+  - trainee
+
+# Results per query page. 50 is Adzuna's maximum.
+results_per_page: 50
