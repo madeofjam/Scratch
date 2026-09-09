@@ -10,6 +10,14 @@ on:
 permissions:
   contents: write
 
+# Runs one at a time. Without this, two overlapping runs (e.g. the daily
+# schedule firing while someone manually re-runs the workflow) can both
+# check out the same starting commit, and whichever pushes second gets a
+# non-fast-forward rejection. Queue instead of racing.
+concurrency:
+  group: job-search
+  cancel-in-progress: false
+
 jobs:
   search:
     runs-on: ubuntu-latest
@@ -34,5 +42,22 @@ jobs:
           git config user.name "job-search-bot"
           git config user.email "actions@users.noreply.github.com"
           git add data/jobs.json
-          git diff --cached --quiet || git commit -m "Update job listings ($(date -u +%Y-%m-%d))"
-          git push
+
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+            exit 0
+          fi
+          git commit -m "Update job listings ($(date -u +%Y-%m-%d))"
+
+          # The concurrency group above should make this impossible in
+          # normal operation, but as a fallback: data/jobs.json is fully
+          # regenerated every run (it always carries a fresh timestamp), so
+          # if something else already pushed an update, rebasing would just
+          # hit a content conflict on that same file for no benefit. Standing
+          # down and deferring to whatever's already on the remote is
+          # correct here — this run's snapshot is redundant, not lost.
+          if ! git push; then
+            echo "Push rejected — another run already published an update. Standing down."
+            git fetch origin "${GITHUB_REF_NAME}"
+            git reset --hard "origin/${GITHUB_REF_NAME}"
+          fi
