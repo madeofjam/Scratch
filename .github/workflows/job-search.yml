@@ -2,9 +2,13 @@ name: Daily Job Search
 
 on:
   schedule:
-    # 07:00 UTC daily. Scheduled workflows only fire on the repo's default
-    # branch, so this activates once this workflow reaches that branch.
-    - cron: "0 7 * * *"
+    # ~07:00 UTC daily. Deliberately NOT exactly on the hour: GitHub's own
+    # docs warn that scheduled workflows can be delayed (or effectively
+    # dropped) during high-load periods, and "the start of every hour" is
+    # named as the worst offender. :17 avoids that contention.
+    # Scheduled workflows only fire on the repo's default branch, so this
+    # activates once this workflow reaches that branch.
+    - cron: "17 7 * * *"
   workflow_dispatch: {}
 
 permissions:
