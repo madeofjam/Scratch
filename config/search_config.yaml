@@ -11,19 +11,42 @@ country: gb
 # Adzuna's exact-phrase mode (tighter than a plain keyword search); Reed has
 # no equivalent and always does a general keyword search on this same text.
 #
-# Deliberately generic, not technology-specific: these cast a wide net
-# across senior roles in ANY field (Chief Nursing Officer, Director of
-# Sales, VP Marketing, etc. all match "Chief"/"Director"/"VP"). That's
-# intentional — title is just the seniority gate here. Actual relevance is
-# min_keyword_matches (below) doing real work against cv_keywords, not the
-# title. If this list gets too tech-specific again, title effectively
-# re-becomes the filter and defeats that.
+# Bare seniority words ("Chief", "Director", "VP" with nothing else) were
+# tried and DON'T WORK: Adzuna/Reed only return page 1 (50 results) per
+# query, and on any given day that page for a word like "Director" alone is
+# dominated by sales/retail/healthcare/finance roles nationally — genuine
+# tech-adjacent postings exist but sit past page 1 and never get fetched at
+# all, so they can't even reach the CV-keyword check below. Tested live:
+# 420 raw results, 0 kept.
+#
+# So this list stays domain-anchored (technology/digital/engineering) to
+# keep page 1 populated with roles that are AT LEAST plausibly relevant —
+# but title_must_contain below is generic, not tied to any specific
+# C-suite phrase, and min_keyword_matches is what actually decides
+# inclusion. A role doesn't need "CIO" or "IT Director" in its title to
+# make the dashboard; it needs to resonate with cv_keywords.
 searches:
-  - what_phrase: "Head of"
-  - what_phrase: "Chief"
-  - what_phrase: "Director"
-  - what_phrase: "VP"
-  - what_phrase: "Vice President"
+  - what_phrase: "Chief Information Officer"
+  - what_phrase: "Chief Technology Officer"
+  - what_phrase: "Chief Digital Officer"
+  - what_phrase: "Group CIO"
+  - what_phrase: "CIO"
+  - what_phrase: "CTO"
+  - what_phrase: "Head of Technology"
+  - what_phrase: "Head of IT"
+  - what_phrase: "Head of Digital"
+  - what_phrase: "Head of Engineering"
+  - what_phrase: "Technology Director"
+  - what_phrase: "Digital Director"
+  - what_phrase: "IT Director"
+  - what_phrase: "Director of Technology"
+  - what_phrase: "Director of Digital"
+  - what_phrase: "Director of Engineering"
+  - what_phrase: "VP Technology"
+  - what_phrase: "VP Engineering"
+  - what_phrase: "VP Digital"
+  - what_phrase: "Vice President Technology"
+  - what_phrase: "Vice President Engineering"
 
 # Left blank deliberately: the location filter below narrows to
 # commutable-from-Farnham-or-remote roles across ALL these UK-wide
@@ -48,9 +71,11 @@ max_days_old: 30
 # restate the phrase (e.g. "Head of Engineering" whose description says
 # "reports to the CIO"). Leave empty to disable.
 #
-# Generic on purpose, matching the searches list above: this is a seniority
-# gate (does the role sound senior?), not a relevance gate (does it fit the
-# CV?) — that's cv_keywords + min_keyword_matches below.
+# Deliberately generic, unlike the searches list above: this is only a
+# seniority check (does the role sound senior at all?), not a relevance
+# check — a role doesn't need "CIO" or "Technology Director" specifically,
+# just some senior-sounding word. Relevance is cv_keywords +
+# min_keyword_matches below, which is the actual "does this fit the CV" gate.
 title_must_contain:
   - "head"
   - "chief"
@@ -118,17 +143,16 @@ cv_keywords:
 # are still scored and shown as tags, and drive "Best CV match" sorting, but
 # don't gate inclusion.
 #
-# Set to 2, not 0: searches/title_must_contain above were deliberately
-# widened to generic seniority terms ("Chief", "Director", "VP", ...) rather
-# than technology-specific ones, so title alone no longer keeps out senior
-# roles in unrelated fields (Chief Nursing Officer, Director of Sales, VP
-# Marketing, ...). This is now the ONLY thing doing that job — at 0, every
-# senior role in every field would reach the dashboard unfiltered. 2 is a
-# starting point, not a measured value: lower it back toward 0/1 if it's
-# cutting real matches (Adzuna descriptions are short/truncated, so a
-# genuinely relevant role can miss a 2-keyword bar); raise it if
-# irrelevant-field roles are still getting through.
-min_keyword_matches: 2
+# Set to 1: the searches list above is domain-anchored (technology/digital/
+# engineering terms), so the raw candidate pool is already tech-adjacent,
+# not cross-industry noise — title_must_contain being generic doesn't
+# reintroduce that risk the way bare "Chief"/"Director" searches did. This
+# is still the real relevance gate (a role need not say "CIO" to be kept,
+# but it must resonate with cv_keywords somewhere), just doesn't need to be
+# as strict as it would with a noisier raw pool. Adzuna descriptions are
+# short/truncated, so keep this low — raise it only if irrelevant roles
+# start showing up; lower toward 0 if it's cutting real matches.
+min_keyword_matches: 1
 
 # A job must be based in one of commutable_areas (case-insensitive
 # substring match against its location) OR mention one of remote_terms
