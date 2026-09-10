@@ -5,9 +5,11 @@ Director / Head of / VP), commutable from Farnham or remote, matched against
 the search criteria in
 [`config/search_config.yaml`](config/search_config.yaml). A scheduled GitHub
 Actions workflow queries the [Adzuna](https://www.adzuna.co.uk/) job search
-API — which aggregates listings from Indeed, Reed, Totaljobs, CV-Library and
-others — every morning, filters and de-duplicates the results, and publishes
-them to a static dashboard via GitHub Pages.
+API — which aggregates listings from Indeed, Totaljobs, CV-Library and
+others — every morning, plus the [Reed](https://www.reed.co.uk/) API
+directly if configured (optional — see setup below), filters and
+de-duplicates the combined results, and publishes them to a static
+dashboard via GitHub Pages.
 
 Matching happens in two stages: the title/location filters (below) source a
 sane candidate pool from Adzuna — searching on bare skill words like "GDPR"
@@ -23,9 +25,10 @@ tags on each card, and jobs can be sorted by match strength.
 - `config/search_config.yaml` — what to search for: titles, UK location,
   minimum salary, how far back to look, and title-based include/exclude
   filters. Edit this any time; no code changes needed.
-- `scripts/search_jobs.py` — queries the Adzuna API for every entry in the
-  config, filters and merges the results, and writes `data/jobs.json`.
-  Tracks a `first_seen` date per job so the dashboard can badge new postings.
+- `scripts/search_jobs.py` — queries Adzuna (and Reed, if configured) for
+  every entry in the config, filters and merges the combined results, and
+  writes `data/jobs.json`. Tracks a `first_seen` date per job so the
+  dashboard can badge new postings.
 - `.github/workflows/job-search.yml` — runs the script daily at 07:00 UTC
   (and on demand via "Run workflow"), then commits the updated
   `data/jobs.json` back to the repo.
@@ -42,6 +45,12 @@ tags on each card, and jobs can be sorted by match strength.
    Secrets and variables → Actions → New repository secret*, and add:
    - `ADZUNA_APP_ID`
    - `ADZUNA_APP_KEY`
+
+2b. **Optional: also search Reed.** Register a free API key at
+   [reed.co.uk/developers](https://www.reed.co.uk/developers) and add it as
+   a repository secret named `REED_API_KEY`. If this secret isn't set, Reed
+   is skipped automatically and the dashboard runs on Adzuna alone — nothing
+   else to configure either way.
 
 3. **Enable GitHub Pages.** *Settings → Pages → Source: Deploy from a
    branch → Branch: `main` / `(root)`*. The dashboard will then be live at
@@ -60,10 +69,11 @@ tags on each card, and jobs can be sorted by match strength.
 Everything about *what* counts as a match lives in
 `config/search_config.yaml`:
 
-- `searches` — one entry per Adzuna query (exact-phrase title searches by
-  default). Add or remove roles here.
+- `searches` — one entry per query, run against Adzuna (exact-phrase) and
+  Reed (general keyword search, if configured). Add or remove roles here.
 - `where` — leave blank for UK-wide, or set a city/region to narrow it.
-- `salary_min` — drops listings below this (where Adzuna has salary data).
+- `salary_min` — drops listings below this (where the source has salary
+  data — most senior/exec listings do, but not all).
 - `title_must_contain` / `exclude_title_terms` — extra title-based filtering
   on top of the Adzuna query, so results stay precise.
 - `location.commutable_areas` / `location.remote_terms` — a job is kept only
@@ -81,6 +91,12 @@ Everything about *what* counts as a match lives in
 
 Changes take effect on the next scheduled or manually-triggered run — no
 need to touch the workflow or script.
+
+## Known limitation: Reed dates are day-precision only
+
+Reed's API returns a posting date only (no time), so Reed-sourced jobs show
+midnight UTC as their "created" time — the age badge and sort order are
+still correct to the day, just not to the hour the way Adzuna's are.
 
 ## Known limitation: remote/hybrid detection
 

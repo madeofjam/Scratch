@@ -5,10 +5,11 @@
 # Adzuna country code. gb = United Kingdom.
 country: gb
 
-# Each entry is a separate Adzuna search query; results from every query are
-# merged and de-duplicated by job ID before the dashboard sees them.
-# "what_phrase" requires the exact phrase to appear (title or description);
-# it's tighter than a plain keyword search.
+# Each entry is one search query, run against Adzuna and — if REED_API_KEY
+# is set — also against Reed; results from every query and source are
+# merged and de-duplicated before the dashboard sees them. "what_phrase" is
+# Adzuna's exact-phrase mode (tighter than a plain keyword search); Reed has
+# no equivalent and always does a general keyword search on this same text.
 searches:
   - what_phrase: "Chief Information Officer"
   - what_phrase: "Group CIO"
