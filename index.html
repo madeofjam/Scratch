@@ -123,6 +123,12 @@
 
   .card .meta { color: var(--text-secondary); font-size: 0.88rem; margin-top: 4px; }
   .card .meta span + span::before { content: " · "; color: var(--text-muted); }
+  .age {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .age-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); flex-shrink: 0; }
   .card .desc { color: var(--text-secondary); font-size: 0.88rem; margin-top: 10px; line-height: 1.5; }
   .card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
   .card .tag {
@@ -191,6 +197,30 @@
     } catch { return ""; }
   }
 
+  // Matches the search window in config/search_config.yaml (max_days_old).
+  // Only affects how faded the oldest dot gets, not which jobs show up.
+  const AGE_FADE_WINDOW_DAYS = 30;
+
+  function formatAge(iso) {
+    if (!iso) return null;
+    const created = new Date(iso);
+    if (isNaN(created)) return null;
+
+    const days = Math.max(0, Math.floor((Date.now() - created) / 86400000));
+    let label;
+    if (days === 0) label = "Posted today";
+    else if (days === 1) label = "Posted yesterday";
+    else if (days < 7) label = `Posted ${days}d ago`;
+    else if (days < 14) label = "Posted 1w ago";
+    else if (days < 21) label = "Posted 2w ago";
+    else if (days < 28) label = "Posted 3w ago";
+    else label = "Posted 4w+ ago";
+
+    const fraction = Math.min(days / AGE_FADE_WINDOW_DAYS, 1);
+    const opacity = (1 - fraction * 0.75).toFixed(2); // fresh = 1, oldest = 0.25
+    return { label, opacity, exact: formatDate(iso) };
+  }
+
   function render() {
     const cardsEl = document.getElementById("cards");
     const emptyEl = document.getElementById("empty");
@@ -209,6 +239,7 @@
       const card = document.createElement("div");
       card.className = "card";
       const matchCount = job.matched_keywords ? job.matched_keywords.length : 0;
+      const age = formatAge(job.created);
       card.innerHTML = `
         <div class="card-top">
           <h3><a href="${job.url}" target="_blank" rel="noopener">${escapeHtml(job.title)}</a></h3>
@@ -221,7 +252,7 @@
           <span>${escapeHtml(job.company)}</span>
           <span>${escapeHtml(job.location)}</span>
           <span>${formatSalary(job.salary_min, job.salary_max)}</span>
-          <span>Posted ${formatDate(job.created)}</span>
+          ${age ? `<span class="age" title="${age.exact}"><span class="age-dot" style="opacity:${age.opacity}"></span>${age.label}</span>` : ""}
         </div>
         ${job.description ? `<div class="desc">${escapeHtml(job.description)}…</div>` : ""}
         ${matchCount > 0 ? `<div class="tags">${job.matched_keywords.map(k => `<span class="tag">${escapeHtml(k)}</span>`).join("")}</div>` : ""}
