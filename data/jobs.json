@@ -1,7 +1,7 @@
 {
-  "last_updated": "2026-09-10T09:24:58.684307+00:00",
+  "last_updated": "2026-09-11T07:26:27.151509+00:00",
   "total": 6,
-  "new_today": 6,
+  "new_today": 0,
   "jobs": [
     {
       "id": "5877461819",
@@ -11,7 +11,7 @@
       "salary_min": 130000,
       "salary_max": 140000,
       "created": "2026-09-09T20:37:11Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5877461819?se=VnvlfPms8RGHaKq0qa7ksA&utm_medium=api&utm_source=5cebfbfa&v=C395A94425679AB7B0664DEAB84B116CF5990260",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5877461819?se=XgFxGLKt8RG-boIJ1Sof9g&utm_medium=api&utm_source=5cebfbfa&v=C395A94425679AB7B0664DEAB84B116CF5990260",
       "description": "Our client is currently recruiting for a VP Engineering to lead on the adoption of AI in Engineering. The VP Engineering is a senior leadership role created to step change in how our client engineers its software. The VP Engineering will set the software engineering and architecture direction for Digital Transformation, establishes the standards, tooling and modern practices the function builds to",
       "category": "IT Jobs",
       "matched_keywords": [
@@ -19,7 +19,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-09-10",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "5877440144",
@@ -29,7 +29,7 @@
       "salary_min": 130000,
       "salary_max": 140000,
       "created": "2026-09-09T19:29:56Z",
-      "url": "https://www.adzuna.co.uk/jobs/details/5877440144?utm_medium=api&utm_source=5cebfbfa",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5877440144?se=XgFxGLKt8RG-boIJ1Sof9g&utm_medium=api&utm_source=5cebfbfa&v=5B8C290BFA29ED9C4CB142FC3FDCBBE31EBA838A",
       "description": "Our client is currently recruiting for a VP Engineering to lead on the adoption of AI in Engineering. The VP Engineering is a senior leadership role created to step change in how our client engineers its software. The VP Engineering will set the software engineering and architecture direction for Digital Transformation, establishes the standards, tooling and modern practices the function builds to",
       "category": "IT Jobs",
       "matched_keywords": [
@@ -37,7 +37,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-09-10",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "reed-57329072",
@@ -55,7 +55,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-09-10",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "reed-57323396",
@@ -73,7 +73,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-09-10",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "reed-57301619",
@@ -91,7 +91,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-09-10",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "reed-57229193",
@@ -109,7 +109,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-09-10",
-      "is_new": true
+      "is_new": false
     }
   ]
 }
