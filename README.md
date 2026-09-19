@@ -11,14 +11,19 @@ directly if configured (optional — see setup below), filters and
 de-duplicates the combined results, and publishes them to a static
 dashboard via GitHub Pages.
 
-Matching happens in two stages: the title/location filters (below) source a
-sane candidate pool from Adzuna — searching on bare skill words like "GDPR"
-or "cloud" alone would return thousands of unrelated junior/compliance
-postings, not senior tech leadership roles — and then every candidate job is
-additionally scored against skills and experience pulled from the CV
-(`cv_keywords`), so a job only reaches the dashboard if it also resonates
-with the actual background, not just its title. Matched skills are shown as
-tags on each card, and jobs can be sorted by match strength.
+Matching happens in three stages: `searches` (domain-anchored technology/
+digital/engineering terms) sources a sane candidate pool from Adzuna/Reed —
+searching on bare skill words like "GDPR" alone would return thousands of
+unrelated junior/compliance postings, and bare seniority words like
+"Director" alone return so much cross-industry volume that genuinely
+relevant postings get buried past the APIs' 50-results-per-page cap and
+never even get fetched (tested live, this really happens); `title_must_contain`
+is a loose seniority check (just needs to sound senior, not restate an exact
+C-suite phrase); and `relevance_keywords` is the actual relevance gate — a
+role must mention at least one broad tech-domain term to make the dashboard,
+separate from the specific CV-jargon list (`cv_keywords`) that's too narrow
+to gate on but drives the match tags and "Best CV match" sort you see on
+each card.
 
 ## How it fits together
 
@@ -74,23 +79,47 @@ Everything about *what* counts as a match lives in
 - `where` — leave blank for UK-wide, or set a city/region to narrow it.
 - `salary_min` — drops listings below this (where the source has salary
   data — most senior/exec listings do, but not all).
-- `title_must_contain` / `exclude_title_terms` — extra title-based filtering
-  on top of the Adzuna query, so results stay precise.
+- `title_must_contain` / `exclude_title_terms` — a loose seniority check
+  (does the role sound senior at all?), not a relevance check — see
+  `relevance_keywords` below for that.
 - `location.commutable_areas` / `location.remote_terms` — a job is kept only
   if its location matches one of `commutable_areas` (currently Farnham and
   the surrounding commutable area, Surrey/Hampshire, and London/South East)
   or it looks remote-friendly per `remote_terms`. Edit these lists to widen
   or narrow the geography.
-- `cv_keywords` — skills/experience terms pulled from the CV (ISO27001,
-  GDPR, vendor management, chargeback models, hyper-growth scaling, etc.).
-  A job's title+description is scored against this list; matched terms show
-  as tags on the dashboard, and `min_keyword_matches` sets how many are
-  required for a job to be kept (0 disables the requirement — keywords are
-  still scored and shown, just not enforced). Update this list whenever the
-  CV changes, so the dashboard keeps matching on current skills.
+- `relevance_keywords` / `min_relevance_matches` — the actual relevance
+  gate. Broad, common tech-domain words (Technology, Digital, Cybersecurity,
+  Cloud, CIO/CTO/CDO phrases, ...) — deliberately generic so a real job-ad
+  blurb is likely to contain one, unlike `cv_keywords` below. Raise
+  `min_relevance_matches` above 1 if too much noise is getting through;
+  lower toward 0 if it's cutting real matches.
+- `cv_keywords` — specific skills/experience terms pulled from the CV
+  (ISO27001, GDPR, vendor management, chargeback models, hyper-growth
+  scaling, etc.). NOT a gate — too narrow for that (see the known
+  limitation below) — purely scoring: matched terms show as tags on the
+  dashboard and drive "Best CV match" sorting. Update this list whenever
+  the CV changes, so the dashboard keeps scoring on current skills.
 
 Changes take effect on the next scheduled or manually-triggered run — no
 need to touch the workflow or script.
+
+## Known limitation: role relevance vs. employer's industry
+
+`relevance_keywords` checks a job's full title+description text, and can't
+distinguish "this role manages technology" from "this role exists at a
+company that happens to be in tech." A CFO role at a SaaS company, or a
+Compliance lead at an "AI-native fintech," will often mention "software" or
+"technology" while describing the *employer*, which is enough to pass the
+gate even though the *role* itself isn't a technology leadership position.
+Verified this is the dominant source of residual noise on the dashboard —
+these are usually easy to dismiss by eye from the title alone (a "Head of
+Pensions Knowledge" or "Construction Director" is obviously not a tech
+role, whatever company posted it), and the CV-match tags / "Best CV match"
+sort still surface genuinely strong matches above this noise. Fixing it
+properly would need something more like classification than keyword
+matching; raising `min_relevance_matches` trades this off against losing
+real matches with thinner descriptions, so it's left as a known tradeoff
+rather than "solved" — tune it if the balance feels wrong.
 
 ## Known limitation: Reed dates are day-precision only
 
