@@ -143,16 +143,19 @@ cv_keywords:
 # are still scored and shown as tags, and drive "Best CV match" sorting, but
 # don't gate inclusion.
 #
-# Set to 1: the searches list above is domain-anchored (technology/digital/
-# engineering terms), so the raw candidate pool is already tech-adjacent,
-# not cross-industry noise — title_must_contain being generic doesn't
-# reintroduce that risk the way bare "Chief"/"Director" searches did. This
-# is still the real relevance gate (a role need not say "CIO" to be kept,
-# but it must resonate with cv_keywords somewhere), just doesn't need to be
-# as strict as it would with a noisier raw pool. Adzuna descriptions are
-# short/truncated, so keep this low — raise it only if irrelevant roles
-# start showing up; lower toward 0 if it's cutting real matches.
-min_keyword_matches: 1
+# Was 1, and it quietly starved the dashboard: production logs (9 days,
+# Sept 10-19) showed 778 raw candidates/day surviving title_must_contain
+# down to ~34, then this single stage dropped ~545 of the pre-filter total
+# on a typical day — a ~94% loss rate, every day, which is why the same 5
+# jobs kept reappearing while genuinely relevant postings (visible by eye
+# on Reed/Adzuna) never showed up: short/truncated descriptions very rarely
+# state one of these specific CV phrases verbatim, even for a great-fit
+# role. Back to 0: the searches list is domain-anchored (technology/
+# digital/engineering terms), so the raw pool is already tech-adjacent —
+# that's what actually keeps out cross-industry noise now, not this gate.
+# cv_keywords still scores and tags every result and drives "Best CV
+# match" sorting; it just no longer silently deletes ~19 in 20 candidates.
+min_keyword_matches: 0
 
 # A job must be based in one of commutable_areas (case-insensitive
 # substring match against its location) OR mention one of remote_terms
