@@ -101,6 +101,12 @@ results_per_page: 50
 # is scored against this list; matched terms are shown on the dashboard as
 # tags and used for "Best CV match" sorting, so results are ranked by
 # substance, not just by which title-phrase query happened to surface them.
+#
+# Purely a ranking/display signal, NOT a filter — see relevance_keywords
+# below for why. These terms are specific CV jargon (exact tool/framework/
+# process names); requiring one to gate inclusion was tried and it starved
+# the dashboard, because short job-ad blurbs rarely restate something this
+# precise even for a role that's obviously a great fit.
 cv_keywords:
   - "Information Security"
   - "Enterprise Risk"
@@ -138,24 +144,43 @@ cv_keywords:
   - "Trustee"
   - "Federated"
 
-# Minimum number of cv_keywords that must appear in a job's title+description
-# for it to make the dashboard. 0 disables this as a hard filter — keywords
-# are still scored and shown as tags, and drive "Best CV match" sorting, but
-# don't gate inclusion.
-#
-# Was 1, and it quietly starved the dashboard: production logs (9 days,
-# Sept 10-19) showed 778 raw candidates/day surviving title_must_contain
-# down to ~34, then this single stage dropped ~545 of the pre-filter total
-# on a typical day — a ~94% loss rate, every day, which is why the same 5
-# jobs kept reappearing while genuinely relevant postings (visible by eye
-# on Reed/Adzuna) never showed up: short/truncated descriptions very rarely
-# state one of these specific CV phrases verbatim, even for a great-fit
-# role. Back to 0: the searches list is domain-anchored (technology/
-# digital/engineering terms), so the raw pool is already tech-adjacent —
-# that's what actually keeps out cross-industry noise now, not this gate.
-# cv_keywords still scores and tags every result and drives "Best CV
-# match" sorting; it just no longer silently deletes ~19 in 20 candidates.
-min_keyword_matches: 0
+# The actual relevance gate: at least min_relevance_matches of these broad,
+# common tech-domain words must appear in a job's title+description for it
+# to make the dashboard. Deliberately generic — this only needs to confirm
+# "is this a technology-adjacent role at all", not measure fit, so it can
+# use words a short job-ad blurb is actually likely to contain. Separate
+# from cv_keywords above on purpose: replacing this gate with cv_keywords
+# (specific CV jargon) was tried twice and failed both ways —
+# min_keyword_matches: 1 against cv_keywords dropped ~94% of candidates
+# daily (verified in production, Sept 10-19: ~778 raw/day down to ~34 after
+# the title filter, then this single stage cut ~545 of those), because
+# short descriptions rarely restate something as precise as "ISO27001"
+# even for a great-fit role; min_keyword_matches: 0 (no gate at all) let
+# through Legal/Tax/Finance/HR director-level roles that happen to pass
+# the generic title_must_contain check, since nothing was left checking
+# domain relevance.
+relevance_keywords:
+  - Technology
+  - Digital
+  - Cybersecurity
+  - "Cyber Security"
+  - "Information Security"
+  - Cloud
+  - Software
+  - Engineering
+  - Infrastructure
+  - "Data Strategy"
+  - CIO
+  - CTO
+  - "Information Technology"
+  - "Chief Information Officer"
+  - "Chief Technology Officer"
+  - "Chief Digital Officer"
+
+min_relevance_matches: 1
+
+# See relevance_keywords above — cv_keywords is scoring/display only, not a
+# gate, so there's no min_keyword_matches here.
 
 # A job must be based in one of commutable_areas (case-insensitive
 # substring match against its location) OR mention one of remote_terms

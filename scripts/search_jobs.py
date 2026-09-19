@@ -180,12 +180,11 @@ def passes_location_filter(job: dict, config: dict) -> bool:
     return any(contains_unnegated_term(description, term) for term in remote_terms)
 
 
-def score_cv_keywords(job: dict, config: dict) -> tuple[list[str], int]:
-    """Match this job's title+description against the CV skills/experience
-    keywords in config. Expects a normalised job (title/description keys
-    consistent across sources) with its description still untruncated —
-    main() truncates it for display only, after this runs."""
-    keywords = config.get("cv_keywords") or []
+def score_keywords(job: dict, keywords: list[str]) -> tuple[list[str], int]:
+    """Match this job's title+description against a list of terms. Expects
+    a normalised job (title/description keys consistent across sources)
+    with its description still untruncated — main() truncates it for
+    display only, after this runs."""
     if not keywords:
         return [], 0
 
@@ -204,7 +203,7 @@ def normalise_adzuna(job: dict) -> dict:
         "salary_max": job.get("salary_max"),
         "created": job.get("created"),
         "url": job.get("redirect_url"),
-        # Left untruncated: passes_filters/score_cv_keywords/
+        # Left untruncated: passes_filters/score_keywords/
         # passes_location_filter all run against this, and want the full
         # text for best recall. main() truncates it for display only, right
         # before writing the final output.
@@ -279,7 +278,7 @@ def main() -> None:
     max_days_old = config.get("max_days_old")
 
     merged: dict[str, dict] = {}
-    funnel = {"raw": 0, "dropped_title": 0, "dropped_keywords": 0, "dropped_location": 0, "dropped_age": 0}
+    funnel = {"raw": 0, "dropped_title": 0, "dropped_relevance": 0, "dropped_location": 0, "dropped_age": 0}
     for query in config.get("searches", []):
         label = query.get("what_phrase") or query.get("what")
 
@@ -302,11 +301,22 @@ def main() -> None:
                     funnel["dropped_title"] += 1
                     continue
 
-                matched_keywords, match_score = score_cv_keywords(job, config)
-                min_matches = config.get("min_keyword_matches", 0)
-                if min_matches and match_score < min_matches:
-                    funnel["dropped_keywords"] += 1
+                # Relevance gate: is this a tech-domain role at all? Broad,
+                # common terms on purpose (Technology, Digital, Cloud, ...) —
+                # this just needs to rule out Tax/Legal/Finance/HR roles
+                # that happen to pass the generic title check, not measure
+                # fit. cv_keywords (specific CV jargon) below is too narrow
+                # for this: short job blurbs rarely restate exact terms like
+                # "ISO27001" even for a genuinely relevant role.
+                _, relevance_score = score_keywords(job, config.get("relevance_keywords") or [])
+                min_relevance = config.get("min_relevance_matches", 0)
+                if min_relevance and relevance_score < min_relevance:
+                    funnel["dropped_relevance"] += 1
                     continue
+
+                # cv_keywords: NOT a gate, just scoring/tags/"Best CV match"
+                # sort — see relevance_keywords above for why.
+                matched_keywords, match_score = score_keywords(job, config.get("cv_keywords") or [])
 
                 if not passes_location_filter(job, config):
                     funnel["dropped_location"] += 1
@@ -324,7 +334,7 @@ def main() -> None:
     print(
         f"[funnel] {funnel['raw']} raw (pre-dedup, sums across queries/sources) "
         f"-> -{funnel['dropped_title']} title filter "
-        f"-> -{funnel['dropped_keywords']} keyword filter "
+        f"-> -{funnel['dropped_relevance']} relevance filter "
         f"-> -{funnel['dropped_location']} location filter "
         f"-> -{funnel['dropped_age']} age filter (Reed only, Adzuna pre-filters server-side) "
         f"-> {len(merged)} unique jobs kept"
