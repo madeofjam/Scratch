@@ -1,8 +1,58 @@
 {
-  "last_updated": "2026-11-09T17:27:40.736627+00:00",
+  "last_updated": "2026-11-10T15:34:19.828117+00:00",
   "total": 59,
   "new_today": 3,
   "jobs": [
+    {
+      "id": "5959527408",
+      "title": "Interim Chief Technology Officer (CTO) \u2013 AWS Cloud Transformation",
+      "company": "Intec Select Ltd",
+      "location": "Kent, South East England",
+      "salary_min": 234000,
+      "salary_max": 247000,
+      "created": "2026-11-09T21:28:52Z",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5959527408?se=XmBSLxzd8RGRTbZzUjwcZg&utm_medium=api&utm_source=5cebfbfa&v=05D8E53DFDB96E7AAEDD03D9FDF590A67B81DF43",
+      "description": "CTO \u2013 AWS Migration & Separation The Opportunity A leading healthcare corporation is hiring a CTO who has demonstrable experience in on premise to cloud (AWS) migrations and proven experience designing, developing and implementing a technical plan for the separation of shares infrastructure, hosting and IT services. The chosen candidate will have industry experience within healthcare or at the ver",
+      "category": "IT Jobs",
+      "matched_keywords": [
+        "Cloud Transformation"
+      ],
+      "match_score": 1,
+      "first_seen": "2026-11-10",
+      "is_new": true
+    },
+    {
+      "id": "5960450079",
+      "title": "SAP Technical Director - Contract",
+      "company": "Mackenzie Jones IT",
+      "location": "North London, London",
+      "salary_min": 234000,
+      "salary_max": 260000,
+      "created": "2026-11-10T15:29:11Z",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5960450079?se=RHwWLRzd8RG2ju3U9MuxdQ&utm_medium=api&utm_source=5cebfbfa&v=4F85D86DBA6F87DB794EA5E910EA234D254C2E84",
+      "description": "SAP Technical Director - Contract Day Rate: \u00a3900 - \u00a31,000 Day Rate Contract Duration: 6 - 12 Months Location: North London / Hertfordshire - Hybrid Working Must be Eligible to work in the UK SAP Technical Director required to join a leading organisation undertaking a major, multi-year SAP transformation programme. Reporting directly to the CIO, the successful candidate will lead the technical stra",
+      "category": "IT Jobs",
+      "matched_keywords": [],
+      "match_score": 0,
+      "first_seen": "2026-11-10",
+      "is_new": true
+    },
+    {
+      "id": "reed-57551847",
+      "title": "Head of Architecture - Cloud Platform - Active SC Required",
+      "company": "Advanced Resource Managers Limited",
+      "location": "London",
+      "salary_min": 700.0,
+      "salary_max": 870.0,
+      "created": "2026-11-10T00:00:00Z",
+      "url": "https://www.reed.co.uk/jobs/head-of-architecture-cloud-platform-active-sc-required/57551847",
+      "description": "Head of Architecture - Cloud Platform - Applicants must hold an Active SC 6 Month contract January start Must hold an active SC Must have a British Passport Purpose of the Role The Head of Architecture is accountable for the architectural vision, technology strategy, governance, and design assurance of LECP. The role provides leadership across cloud, infrastructure, platform engineering, security,",
+      "category": "",
+      "matched_keywords": [],
+      "match_score": 0,
+      "first_seen": "2026-11-10",
+      "is_new": true
+    },
     {
       "id": "reed-57546164",
       "title": "Senior Analytcs Director",
@@ -19,7 +69,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-11-09",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "reed-57544448",
@@ -37,23 +87,7 @@
       ],
       "match_score": 1,
       "first_seen": "2026-11-09",
-      "is_new": true
-    },
-    {
-      "id": "reed-57545447",
-      "title": "Technical Operations Director",
-      "company": "Teemz Ltd",
-      "location": "London",
-      "salary_min": 140000.0,
-      "salary_max": 170000.0,
-      "created": "2026-11-09T00:00:00Z",
-      "url": "https://www.reed.co.uk/jobs/technical-operations-director/57545447",
-      "description": "Technical Operations Director , up to 170,000 base + Benefits | Fully Remote | Occasional UK &amp; Ireland Travel High-Growth, Ambitious Technology Business Are you a transformational leader who knows how to turn operational complexity into outstanding performance? We are looking for an exceptional Technical Operations Director to lead a significant operational transformation, bringing together te",
-      "category": "",
-      "matched_keywords": [],
-      "match_score": 0,
-      "first_seen": "2026-11-09",
-      "is_new": true
+      "is_new": false
     },
     {
       "id": "5953047006",
@@ -63,7 +97,7 @@
       "salary_min": 221000,
       "salary_max": 234000,
       "created": "2026-11-04T14:48:06Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5953047006?se=dhYb2mLc8RGNUsHNt6rWVg&utm_medium=api&utm_source=5cebfbfa&v=30549DFDA4F5424A65C1909F0E3A1BEFDA926C71",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5953047006?se=XmBSLxzd8RGRTbZzUjwcZg&utm_medium=api&utm_source=5cebfbfa&v=30549DFDA4F5424A65C1909F0E3A1BEFDA926C71",
       "description": "Interim Chief Technology Officer (CTO) \u2013 AWS Cloud Transformation Day Rate: Up to \u00a3900 per day \u2013 Outside IR35 Location: Fully Remote (UK) Contract: Interim / Contract Start Date: ASAP The Opportunity We are partnered with our client on a sole agency basis, who is an established and growing technology organisation operating within a highly regulated sector, is seeking an experienced Interim Chief T",
       "category": "IT Jobs",
       "matched_keywords": [
@@ -197,6 +231,22 @@
       ],
       "match_score": 1,
       "first_seen": "2026-10-13",
+      "is_new": false
+    },
+    {
+      "id": "reed-57545447",
+      "title": "Technical Operations Director",
+      "company": "Teemz Ltd",
+      "location": "London",
+      "salary_min": 140000.0,
+      "salary_max": 170000.0,
+      "created": "2026-11-09T00:00:00Z",
+      "url": "https://www.reed.co.uk/jobs/technical-operations-director/57545447",
+      "description": "Technical Operations Director , up to 170,000 base + Benefits | Fully Remote | Occasional UK &amp; Ireland Travel High-Growth, Ambitious Technology Business Are you a transformational leader who knows how to turn operational complexity into outstanding performance? We are looking for an exceptional Technical Operations Director to lead a significant operational transformation, bringing together te",
+      "category": "",
+      "matched_keywords": [],
+      "match_score": 0,
+      "first_seen": "2026-11-09",
       "is_new": false
     },
     {
@@ -335,7 +385,7 @@
       "salary_min": 140000,
       "salary_max": 160000,
       "created": "2026-11-03T19:17:45Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5952084344?se=iFF62GLc8RGNUsHNt6rWVg&utm_medium=api&utm_source=5cebfbfa&v=3AAF231A533CF86C6B7235D8CFF60338917746BC",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5952084344?se=bpjjLRzd8RG2ju3U9MuxdQ&utm_medium=api&utm_source=5cebfbfa&v=3AAF231A533CF86C6B7235D8CFF60338917746BC",
       "description": "Head of Infrastructure Portfolio (Director Level) Banking & Financial Services London (Hybrid) | Up to \u00a3160,000  Bonus  Benefits Are you a senior portfolio leader ready to take ownership of a major technology infrastructure change agenda within a global financial institution? This is a rare opportunity to lead the Infrastructure Portfolio for a leading global banking group, directing a multi-milli",
       "category": "IT Jobs",
       "matched_keywords": [],
@@ -383,7 +433,7 @@
       "salary_min": 221000,
       "salary_max": 260000,
       "created": "2026-10-30T19:04:23Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5947235459?se=_FRU12Lc8RGw_dVRDPg_Ng&utm_medium=api&utm_source=5cebfbfa&v=84666677A62544C9374018478E7931998602FD3D",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5947235459?se=RHwWLRzd8RG2ju3U9MuxdQ&utm_medium=api&utm_source=5cebfbfa&v=84666677A62544C9374018478E7931998602FD3D",
       "description": "Job Title: SAP Technical Director Job Type: Contrac Duration: 6 Months Work Arrangements: Hybrid Industry: FMCG/IT Job Location: Hertfordshire/Manchester/Southampton Rate: \u00a3800/day to \u00a31200/day Job Role \u2013 SAP Technical Director Reporting to the CIO (Chief Information Officer) the SAP Technical Director shall lead the path clearing and migration to SAP Private Cloud of the companies SAP ECC and BW/",
       "category": "IT Jobs",
       "matched_keywords": [],
@@ -575,7 +625,7 @@
       "salary_min": 120000,
       "salary_max": 140000,
       "created": "2026-10-25T15:45:43Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5941559872?se=_pLN12Lc8RG9-b-A2d8A9w&utm_medium=api&utm_source=5cebfbfa&v=959A106690C18B4298D5A0D9716A0AFFE122AAE7",
+      "url": "https://www.adzuna.co.uk/jobs/details/5941559872?utm_medium=api&utm_source=5cebfbfa",
       "description": "Head of Engineering \u2013 AI, MLOps & Cloud Platforms Salary: \u00a3120,000\u2013\u00a3140,000 Permanent | Senior Engineering Leadership | National Security & Defence An exciting opportunity has arisen for an experienced Head of Engineering to join a growing technology consultancy specialising in Artificial Intelligence, Machine Learning and modern cloud-native engineering. Working at the intersection of software en",
       "category": "IT Jobs",
       "matched_keywords": [],
@@ -591,7 +641,7 @@
       "salary_min": 120000,
       "salary_max": 140000,
       "created": "2026-10-25T11:51:00Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5941440920?se=_pLN12Lc8RG9-b-A2d8A9w&utm_medium=api&utm_source=5cebfbfa&v=F9E09C1F2823C84FA53608738112F8E042B66824",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5941440920?se=gHVoLRzd8RG2ju3U9MuxdQ&utm_medium=api&utm_source=5cebfbfa&v=F9E09C1F2823C84FA53608738112F8E042B66824",
       "description": "Head of Engineering \u2013 AI, MLOps & Cloud Platforms Permanent | Senior Engineering Leadership | National Security & Defence An exciting opportunity has arisen for an experienced Head of Engineering to join a growing technology consultancy specialising in Artificial Intelligence, Machine Learning and modern cloud-native engineering. Working at the intersection of software engineering, DevOps and MLOp",
       "category": "IT Jobs",
       "matched_keywords": [],
@@ -623,7 +673,7 @@
       "salary_min": 140000,
       "salary_max": 160000,
       "created": "2026-10-23T16:38:41Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5939400373?se=YCm-2mLc8RGw_dVRDPg_Ng&utm_medium=api&utm_source=5cebfbfa&v=1EBA6555007F7FFCBB26EDF0CEE24CEED53AB144",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5939400373?se=IGzoLxzd8RGRTbZzUjwcZg&utm_medium=api&utm_source=5cebfbfa&v=1EBA6555007F7FFCBB26EDF0CEE24CEED53AB144",
       "description": "Job Title: IT Director Location: Central London, Soho area Salary: \u00a3(Apply online only)k basic, plus excellent package Type: Permanent, full-time, hybrid working available We are seeking an experienced IT Director to join our dynamic team based in Central London. The client is a global digital advertising distribution platform that enabled advertisers, agencies, and broadcasters to manage the deli",
       "category": "IT Jobs",
       "matched_keywords": [],
@@ -664,22 +714,6 @@
       "is_new": false
     },
     {
-      "id": "reed-57478982",
-      "title": "Head of Transformation - Hybrid - c\u00a3140,000",
-      "company": "Washington Frank ",
-      "location": "Chelmsford",
-      "salary_min": 120000.0,
-      "salary_max": 140000.0,
-      "created": "2026-10-21T00:00:00Z",
-      "url": "https://www.reed.co.uk/jobs/head-of-transformation-hybrid-c140000/57478982",
-      "description": "Head of Transformation - Hybrid - c 140,000 Washington Frank are working with an organisation that is investing in technology and now needs a Head of ERP &amp; IT Transformation to deliver a multi-country programme. The focus is on creating a consistent way of working across the business. Reporting to the COO, you will be responsible for a Microsoft Dynamics 365 ERP implementation alongside a wide",
-      "category": "",
-      "matched_keywords": [],
-      "match_score": 0,
-      "first_seen": "2026-11-02",
-      "is_new": false
-    },
-    {
       "id": "reed-57481491",
       "title": "Interim VP Finance | VC-Backed Deep-Tech Scale-Up",
       "company": "Harmonic Group Ltd",
@@ -693,6 +727,22 @@
       "matched_keywords": [],
       "match_score": 0,
       "first_seen": "2026-10-22",
+      "is_new": false
+    },
+    {
+      "id": "reed-57478982",
+      "title": "Head of Transformation - Hybrid - c\u00a3140,000",
+      "company": "Washington Frank ",
+      "location": "Chelmsford",
+      "salary_min": 120000.0,
+      "salary_max": 140000.0,
+      "created": "2026-10-21T00:00:00Z",
+      "url": "https://www.reed.co.uk/jobs/head-of-transformation-hybrid-c140000/57478982",
+      "description": "Head of Transformation - Hybrid - c 140,000 Washington Frank are working with an organisation that is investing in technology and now needs a Head of ERP &amp; IT Transformation to deliver a multi-country programme. The focus is on creating a consistent way of working across the business. Reporting to the COO, you will be responsible for a Microsoft Dynamics 365 ERP implementation alongside a wide",
+      "category": "",
+      "matched_keywords": [],
+      "match_score": 0,
+      "first_seen": "2026-11-02",
       "is_new": false
     },
     {
@@ -831,7 +881,7 @@
       "salary_min": 200000,
       "salary_max": 215000,
       "created": "2026-10-15T13:59:58Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5929054232?se=jm0H2WLc8RGw_dVRDPg_Ng&utm_medium=api&utm_source=5cebfbfa&v=5D6C9D5728B747BEB45AEAF12D5B2549F36ECC02",
+      "url": "https://www.adzuna.co.uk/jobs/land/ad/5929054232?se=Fi0uLhzd8RG2ju3U9MuxdQ&utm_medium=api&utm_source=5cebfbfa&v=5D6C9D5728B747BEB45AEAF12D5B2549F36ECC02",
       "description": "Job title: Head of IT Location: Nottingham (hybrid) Salary: c.\u00a3200,000 per annum plus bonus Job type: Permanent, 2 year fixed term contract Head of IT | Nottingham | c.\u00a3200,000 plus bonus Our client is a highly successful international business with a loyal global customer base and a long term outlook. They make decisions for lasting success rather than short term gains. They're looking for a Head",
       "category": "IT Jobs",
       "matched_keywords": [],
@@ -888,38 +938,6 @@
       "is_new": false
     },
     {
-      "id": "5924316232",
-      "title": "Director of Professional Services",
-      "company": "TEEMZ LTD",
-      "location": "Hyde Park, Leeds",
-      "salary_min": 140000,
-      "salary_max": 160000,
-      "created": "2026-10-12T16:16:43Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5924316232?se=AgUT22Lc8RGIUJtGsdsQXA&utm_medium=api&utm_source=5cebfbfa&v=9E41737E241DA46BE4948DE5DE794480FF9BEAF6",
-      "description": "Director of Professional Services, Remote Working with limited travel to offices locations in the UK, up to \u00a3160,000 base  Bonus  Benefits. Technology Operations | Business Transformation | Service Excellence Location: UK-wide \u2013 flexible location, with travel to key business locations as required The opportunity: Transform a large-scale technology operation, challenge the status quo and build a fi",
-      "category": "IT Jobs",
-      "matched_keywords": [],
-      "match_score": 0,
-      "first_seen": "2026-10-19",
-      "is_new": false
-    },
-    {
-      "id": "reed-57447001",
-      "title": "VP Global Account Based Marketing",
-      "company": "Salt Search",
-      "location": "West London",
-      "salary_min": 140000.0,
-      "salary_max": 150000.0,
-      "created": "2026-10-12T00:00:00Z",
-      "url": "https://www.reed.co.uk/jobs/vp-global-account-based-marketing/57447001",
-      "description": "VP ABM Global Marketing West London (3/4 days in office) c. 140-150K plus Bonus Turn marketing into a revenue engine. Build demand. Own the impact. We're looking for a commercially minded VP Marketing to drive global marketing strategy for a fast-growing enterprise technology business. You wlll be a proven B2B technology/SaaS marketer who has solid experience targeting the Telecommunications and M",
-      "category": "",
-      "matched_keywords": [],
-      "match_score": 0,
-      "first_seen": "2026-10-12",
-      "is_new": false
-    },
-    {
       "id": "reed-57448795",
       "title": "Director of Professional Services",
       "company": "Teemz Ltd",
@@ -949,22 +967,6 @@
       "matched_keywords": [],
       "match_score": 0,
       "first_seen": "2026-10-12",
-      "is_new": false
-    },
-    {
-      "id": "5921887939",
-      "title": "Lead Technical Program Manager - CTO Enterprise Services & Platforms",
-      "company": "JPMorganChase",
-      "location": "London, UK",
-      "salary_min": 147250,
-      "salary_max": 200000,
-      "created": "2026-10-10T09:22:52Z",
-      "url": "https://www.adzuna.co.uk/jobs/land/ad/5921887939?se=_pLN12Lc8RG9-b-A2d8A9w&utm_medium=api&utm_source=5cebfbfa&v=CEEB1D7E05C3CB99972684D9EDC1034316CD116F",
-      "description": "Description As a Lead Technical Program Manager in Chief Technology Office (CTO) - Enterprise Services & Platforms, you will drive the successful delivery of complex technology projects and programs that will help reaching business goals across the firm. You will combine strong program leadership with data engineering depth to shape and deliver modern data platforms and data products in a highly r",
-      "category": "IT Jobs",
-      "matched_keywords": [],
-      "match_score": 0,
-      "first_seen": "2026-10-11",
       "is_new": false
     }
   ]
